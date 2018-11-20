@@ -2,18 +2,19 @@
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'ErichDonGubler/vim-sublime-monokai'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'python-mode/python-mode', { 'branch': 'develop' }
+"Plug 'python-mode/python-mode', { 'branch': 'develop' }
+Plug 'diraol/python-mode', { 'branch': 'fix_six_import' }
 Plug 'scrooloose/nerdtree'
-Plug 'ErichDonGubler/vim-sublime-monokai'
 Plug 'ervandew/supertab'
-"Plug 'davidhalter/jedi-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tmhedberg/SimpylFold'
 Plug 'Raimondi/delimitMate'
 Plug 'kien/ctrlp.vim'
-"Plug '~/.vim/plugged/YouCompleteMe'
+Plug '~/.vim/plugged/YouCompleteMe'
+ Plug 'davidhalter/jedi-vim'
 
 call plug#end()
 
@@ -24,8 +25,8 @@ call plug#end()
 colorscheme sublimemonokai
 let g:sublimemonokai_term_italic = 1
 let g:monokai_gui_italic = 1
-"set termguicolors
-"set t_Co=256
+" set termguicolors
+" set t_Co=256
 
 """
 
