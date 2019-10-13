@@ -19,7 +19,7 @@ call plug#begin('~/.vim/plugged')
     "Plug 'python-mode/python-mode'
     
     " File tree <C-n>
-    Plug 'scrooloose/nerdtree'
+    Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
     " Nerd commenter <leader>c
     "Plug 'scrooloose/nerdcommenter'
@@ -30,14 +30,11 @@ call plug#begin('~/.vim/plugged')
     " Python folding
     Plug 'tmhedberg/SimpylFold'
     
-    "Auto closing of quotes and paranthesis
-    Plug 'Raimondi/delimitMate'
-
     " Fuzzy file finder
     "Plug 'kien/ctrlp.vim'
     
     " Python code completion
-    "Plug 'davidhalter/jedi-vim'
+    Plug 'davidhalter/jedi-vim'
     
     " Change quotes cs"'
     "Plug 'tpope/vim-surround'
@@ -49,7 +46,7 @@ call plug#begin('~/.vim/plugged')
     "Plug 'tpope/vim-fugitive'
 
     " Some vim settings that should be default
-    "Plug 'tpope/vim-sensible'
+    Plug 'tpope/vim-sensible'
 
 call plug#end()
 
@@ -221,6 +218,17 @@ vnoremap <leader>s :s/
 
 """
 
+""" Misc
+
+" Autoreloading of .vimrc
+"autocmd! bufwritepost .vimrc :source %
+
+" Toggle search highlighting
+let hlstate=0
+nnoremap <silent><expr> <leader>h (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
+
+"""
+
 """ Plugins
 
 """ Pymode
@@ -247,15 +255,37 @@ nmap <C-n> :NERDTreeToggle<CR>
 
 """
 
+""" Completor
+
+" Use TAB to complete when typing words, else inserts TABs as usual.  Uses
+" dictionary, source files, and completor to find matching words to complete.
+
+" Note: usual completion is on <C-n> but more trouble to press all the time.
+" Never type the same word twice and maybe learn a new spellings!
+" Use the Linux dictionary when spelling is in doubt.
+function! Tab_Or_Complete() abort
+  " If completor is already open the `tab` cycles through suggested completions.
+  if pumvisible()
+    return "\<C-N>"
+  " If completor is not open and we are in the middle of typing a word then
+  " `tab` opens completor menu.
+  elseif col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^[[:keyword:][:ident:]]'
+    return "\<C-R>=completor#do('complete')\<CR>"
+  else
+    " If we aren't typing a word and we press `tab` simply do the normal `tab`
+    " action.
+    return "\<Tab>"
+  endif
+endfunction
+
+" Use `tab` key to select completions.  Default is arrow keys.
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Use tab to trigger auto completion.  Default suggests completions as you type.
+let g:completor_auto_trigger = 0
+inoremap <expr> <Tab> Tab_Or_Complete()
+
 """
-
-""" Misc
-
-" Autoreloading of .vimrc
-"autocmd! bufwritepost .vimrc :source %
-
-" Toggle search highlighting
-let hlstate=0
-nnoremap <silent><expr> <leader>h (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
 
 """
