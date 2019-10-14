@@ -2,48 +2,57 @@
 
 call plug#begin('~/.vim/plugged')
 
-    " Vim color theme
+    " Vim color themes
     Plug 'ErichDonGubler/vim-sublime-monokai'
+    Plug 'kristijanhusak/vim-hybrid-material'
+    Plug 'juanedi/predawn.vim'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'trevordmiller/nova-vim'
 
     " Airline
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes' 
 
-    " Code completion
+    " Python mode
+    Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+    
+    " Python code completion
     Plug 'maralla/completor.vim'
 
-    " Linting
-    "Plug 'w0rp/ale'
+    " Python linting
+    "Plug 'dense-analysis/ale'
 
-    " Python mode
-    "Plug 'python-mode/python-mode'
-    
+    " Python syntax highlighting for neovim
+    if (has("nvim"))
+        Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+    endif
+
     " File tree <C-n>
     Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
     " Nerd commenter <leader>c
-    "Plug 'scrooloose/nerdcommenter'
+    " Plug 'scrooloose/nerdcommenter'
     
     " Tab for code completion
-    "Plug 'ervandew/supertab'
+    " Plug 'ervandew/supertab'
     
     " Python folding
     Plug 'tmhedberg/SimpylFold'
     
     " Fuzzy file finder
-    "Plug 'kien/ctrlp.vim'
+    " Plug 'kien/ctrlp.vim'
     
     " Python code completion
-    Plug 'davidhalter/jedi-vim'
+    " Plug 'davidhalter/jedi-vim'
     
     " Change quotes cs"'
-    "Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-surround'
 
     " Commenter gc
-    "Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-commentary'
 
     " Git integration
-    "Plug 'tpope/vim-fugitive'
+    " Plug 'tpope/vim-fugitive'
 
     " Some vim settings that should be default
     Plug 'tpope/vim-sensible'
@@ -54,11 +63,14 @@ call plug#end()
 
 """ Color scheme
 
-colorscheme sublimemonokai
-let g:sublimemonokai_term_italic = 1
-let g:monokai_gui_italic = 1
-"set termguicolors
-"set t_Co=256
+colorscheme nova"
+let g:nova_transparent = 1
+if (has("nvim"))
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+if (has("termguicolors"))
+    set termguicolors
+endif
 
 """
 
@@ -189,8 +201,8 @@ nnoremap <C-l> <C-w>l
 let mapleader = ","
 
 " Edit important files
-nnoremap <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap <leader>eb :vsplit ~/.bash_profile<CR>
+nnoremap <leader>ev :vsplit $HOME/.vim/vimrc<CR>
+nnoremap <leader>eb :vsplit $HOME/.bashrc<CR>
 
 " Switch tabs
 nnoremap <leader>n gT
@@ -208,20 +220,20 @@ nnoremap <leader>Q :q!<CR>
 nnoremap <leader>s :%s/
 vnoremap <leader>s :s/
 
-" Run python2 script
-"nnoremap <leader>P :w<CR>:!python ./%<CR>
-"vnoremap <leader>P :w!<CR>:!python ./%<CR>
+" Run python2 script (not necessary with pymode installed)
+" nnoremap <leader>P :w<CR>:!python ./%<CR>
+" vnoremap <leader>P :w!<CR>:!python ./%<CR>
 
-" Run python3 script
-"nnoremap <leader>p :w<CR>:!python3 ./%<CR>
-"vnoremap <leader>p :w!<CR>:!python3 ./%<CR>
+" Run python3 script (not necessary with pymode installed)
+" nnoremap <leader>p :w<CR>:!python3 ./%<CR>
+" vnoremap <leader>p :w!<CR>:!python3 ./%<CR>
 
 """
 
 """ Misc
 
 " Autoreloading of .vimrc
-"autocmd! bufwritepost .vimrc :source %
+" autocmd! bufwritepost .vimrc :source %
 
 " Toggle search highlighting
 let hlstate=0
@@ -233,15 +245,16 @@ nnoremap <silent><expr> <leader>h (&hls && v:hlsearch ? ':nohls' : ':set hls')."
 
 """ Pymode
 
-"let g:pymode_python = 'python3'
-"let g:pymode_rope = 0
-"let g:pymode_folding = 0
+let g:pymode_python = 'python3'
+let g:pymode_rope = 1
+let g:pymode_folding = 1
 
 """
 
 """ Airline
 
-let g:airline_theme = 'deus'
+" let g:airline_theme = 'deus'
+let g:airline_theme = 'hybrid'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_powerline_fonts = 1
@@ -283,7 +296,7 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Use tab to trigger auto completion.  Default suggests completions as you type.
-let g:completor_auto_trigger = 0
+let g:completor_auto_trigger = 1
 inoremap <expr> <Tab> Tab_Or_Complete()
 
 """
