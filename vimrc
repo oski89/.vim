@@ -4,10 +4,10 @@ call plug#begin('~/.vim/plugged')
 
     " Vim color themes
     Plug 'ErichDonGubler/vim-sublime-monokai'
+    Plug 'trevordmiller/nova-vim'
     Plug 'kristijanhusak/vim-hybrid-material'
     Plug 'juanedi/predawn.vim'
     Plug 'sheerun/vim-polyglot'
-    Plug 'trevordmiller/nova-vim'
 
     " Airline
     Plug 'vim-airline/vim-airline'
@@ -63,7 +63,7 @@ call plug#end()
 
 """ Color scheme
 
-colorscheme nova"
+colorscheme nova
 let g:nova_transparent = 1
 if (has("nvim"))
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -76,7 +76,6 @@ endif
 
 """ Basic Settings
 
-set guifont=Cousine\ for\ Powerline:h12 
 set shell=/bin/bash
 set nocompatible
 set ttimeoutlen=10
@@ -168,14 +167,6 @@ vnoremap > >gv
 " Search
 nnoremap / /\v
 vnoremap / /\v
-
-" Match parens
-nnoremap <tab> %
-vnoremap <tab> %
-
-" Wrap paragraphs
-"vmap Q gq
-"nmap Q gqap
 
 " Unbind arrow keys
 nnoremap <up> <nop>
